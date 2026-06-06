@@ -46,31 +46,31 @@ Most security candidates have theoretical knowledge from certifications. This la
 ## 🗺️ Architecture Diagram
 
 ```
-                          ┌─────────────────────────────────────────────┐
-                          │           INTERNET / WAN                    │
-                          │     VMware NAT (VMnet8) — 192.168.139.x     │
-                          └──────────────────┬──────────────────────────┘
+                        ┌─────────────────────────────────────────────┐
+                        │           INTERNET / WAN                    │
+                        │     VMware NAT (VMnet8) — 192.168.139.x     │
+                        └────────────────────┬────────────────────────┘
                                              │
-                          ┌──────────────────▼──────────────────────────┐
-                          │              pfSense 2.8.1                  │
-                          │         Firewall + Router + DNS             │
-                          │  em0=WAN  em1=LAN  em2=DMZ  em3=BRANCH     │
-                          │  em4=SOC  em5=MGMT  em6=ATTACK             │
-                          └──┬───────┬────────┬────────┬───────┬────────┘
-                             │       │        │        │       │
-              ┌──────────────▼─┐ ┌───▼──┐ ┌──▼───┐ ┌─▼───┐ ┌─▼──────┐
-              │  LAN / Corp    │ │ DMZ  │ │BRANCH│ │ SOC │ │  MGMT  │
-              │  10.10.0.0/24  │ │10.20 │ │10.30 │ │10.40│ │ 10.50  │
-              │  AD, DNS, DHCP │ │NGINX │ │ DC   │ │Wazuh│ │Grafana │
-              │  App Server    │ │ WAF  │ │DHCP  │ │ ELK │ │Ansible │
-              │  DB Server     │ │Honey │ │Win10 │ │Hive │ │NetBox  │
-              └────────────────┘ └──────┘ └──────┘ └─────┘ └────────┘
+                  ┌──────────────────────────▼─────────────────────────────┐
+                  │                     pfSense 2.8.1                      │
+                  │               Firewall + Router + DNS                  │
+                  │        em0=WAN  em1=LAN  em2=DMZ  em3=BRANCH           │
+                  │        em4=SOC  em5=MGMT  em6=ATTACK                   │
+                  └────────┬──────────────┬────────┬────────┬───────────┬──┘
+                           │              │        │        │           │
+                   ┌───────▼────────┐  ┌──▼───┐ ┌──▼───┐ ┌──▼──┐   ┌────▼───┐
+                   │  LAN / Corp    │  │ DMZ  │ │BRANCH│ │ SOC │   │  MGMT  │
+                   │  10.10.0.0/24  │  │10.20 │ │10.30 │ │10.40│   │ 10.50  │
+                   │  AD, DNS, DHCP │  │NGINX │ │ DC   │ │Wazuh│   │Grafana │
+                   │  App Server    │  │ WAF  │ │DHCP  │ │ ELK │   │Ansible │
+                   │  DB Server     │  │Honey │ │Win10 │ │Hive │   │NetBox  │
+                   └────────────────┘  └──────┘ └──────┘ └─────┘   └────────┘
                                                                     
-              ┌─────────────────────────────────────────────────────────┐
-              │        ATTACK LAB — 10.60.0.0/24 — ISOLATED            │
-              │   Kali Linux │ Metasploitable 3 │ DVWA │ Vuln Windows  │
-              │         NO ROUTE TO PRODUCTION — DATA DIODE            │
-              └─────────────────────────────────────────────────────────┘
+                  ┌─────────────────────────────────────────────────────────┐
+                  │        ATTACK LAB — 10.60.0.0/24 — ISOLATED             │
+                  │   Kali Linux │ Metasploitable 3 │ DVWA │ Vuln Windows   │
+                  │         NO ROUTE TO PRODUCTION — DATA DIODE             │
+                  └─────────────────────────────────────────────────────────┘
 ```
 
 ---
